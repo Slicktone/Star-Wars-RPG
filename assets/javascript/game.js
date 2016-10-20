@@ -10,9 +10,12 @@ Once selected, the player will fight as that character for the rest of the game.
 
 // ****Set up functions for each action thats happening****
 
-$(document).ready(function() {
+$ (document).ready(function() {
 
-var obiWan, luke, darthSid, maul, userChar, enemies, fightSection, defender;
+var userChar;
+var enemies;
+var fightSection = [];
+var defender;
 var isSet = false;
 var isEnemySet = false;
 
@@ -27,33 +30,36 @@ var luke = {
 var darthSid = {
 	name: "darthSid",
 	health: 400,
-	attack: 20
+	attack: 30,
+	selected: false
 };
 
 
 var maul = {
 	name: "maul",
 	health: 300,
-	attack: 15
+	attack: 15,
+	selected: false
 };
 
 var obiWan = {
 	name: "obiwan",
 	health: 200,
-	attack: 10
+	attack: 10,
+	selected: false
 };
 
 var myGameCharacters = [luke, darthSid, maul, obiWan];
 
 
 
-
+// moving the characters
 	$(".character").on("click", function() {
 	// isSet is declared to false at the top. (15)
 	// setting the isSet variable to not true, so the other characters don't move. ()
 	if(!isSet) { // if selected character is not the variable isSet, set it equal to true. (44,45)
 		isSet = true;
-		$('#userchar').append($(this));
+		$('#userChar').append($(this));
 		// when a user clicks on a character, it will remove the class and append it.
 		$(this).attr("class","currentCharacter")
 		// this will take the rest of the characters and move them to the enemies sections.
@@ -61,34 +67,27 @@ var myGameCharacters = [luke, darthSid, maul, obiWan];
 		$(".character").appendTo("#enemies")
 	} else if (!isEnemySet){
 		isEnemySet = true;
+		console.log(isEnemySet)
+		$(".defender").append($(this));
+		$("#userChar, .currentCharacter").appendTo(".attacker");
 		var nameSelected = $(this).attr("id");
-			console.log(nameSelected);
-			for(var i = 0; i < myGameCharacters.length; i++){
-						if(nameSelected === myGameCharacters[i].name){
-							// console.log(nameSelected)
-						}
-					}
-	}
-	
-		
-	
+
+				}		
+
 });
+// Saving the for loop for combat maybe?
 
+// *** Begin combat ***
+// function combat(health, attack, name) {
 
-
-
-
-
-
-// pass in parameters for whatever the game is doing. ex) function(hidecharacter) {}
-// function repositionImage(image) {
-
+// 	$("button").on("click", function() {
+					// for(var i = 0; i < myGameCharacters.length; i++){
+					// 	if(nameSelected === myGameCharacters[i].name){
+					// 		// console.log(nameSelected)
+					// 	}
+					// }
+// 	})
 // }
-// function hideCharacter(character) {
-// 	character.hide();
-// 	// or
-// 	return();
-// }
+	
 
-		
 })
