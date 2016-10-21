@@ -26,14 +26,12 @@ var luke = {
 	selected: false
 };
 
-
 var darthSid = {
 	name: "darthSid",
 	health: 400,
 	attack: 30,
 	selected: false
 };
-
 
 var maul = {
 	name: "maul",
@@ -50,7 +48,8 @@ var obiWan = {
 };
 
 var myGameCharacters = [luke, darthSid, maul, obiWan];
-
+$("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying each characters' health.
+// add in their attack power as well
 
 
 // moving the characters
@@ -65,22 +64,26 @@ var myGameCharacters = [luke, darthSid, maul, obiWan];
 		// this will take the rest of the characters and move them to the enemies sections.
 		// appendTo will add 
 		$(".character").appendTo("#enemies")
-	} else if (!isEnemySet){
-		isEnemySet = true;
-		console.log(isEnemySet)
-		$(".defender").append($(this));
-		$("#userChar, .currentCharacter").appendTo(".attacker");
-		var nameSelected = $(this).attr("id");
+	}	else if (!isEnemySet){
+			isEnemySet = true;
+			console.log(isEnemySet)
+			$(".defender").append($(this));
+			$("#userChar, .currentCharacter").appendTo(".attacker");
+	}
 
-				}		
-
+	})
 });
+
+	function characterStats(luke, obiWan, darthSid, maul) {
+
+	}
 // Saving the for loop for combat maybe?
 
 // *** Begin combat ***
 // function combat(health, attack, name) {
 
 // 	$("button").on("click", function() {
+					// var nameSelected = $(this).attr("id");
 					// for(var i = 0; i < myGameCharacters.length; i++){
 					// 	if(nameSelected === myGameCharacters[i].name){
 					// 		// console.log(nameSelected)
@@ -90,4 +93,3 @@ var myGameCharacters = [luke, darthSid, maul, obiWan];
 // }
 	
 
-})
