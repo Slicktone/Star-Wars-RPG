@@ -72,11 +72,20 @@ $("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying eac
 	}
 
 	})
+$("#combatButton").on("click", function() {
+	$(".defender").empty();
 });
 
-	function characterStats(luke, obiWan, darthSid, maul) {
+	// function combat() {
+	// 	var abc = $("#userChar");
+	// 	console.log(abc)
+	// }
 
-	}
+	// function characterStats(luke, obiWan, darthSid, maul) {
+	// 	if(luke === 0 || obiWan === 0 || darthSid === 0 || maul === 0) {
+	// 		$(".defender").empty();
+	// 	}
+	// }
 // Saving the for loop for combat maybe?
 
 // *** Begin combat ***
@@ -91,5 +100,5 @@ $("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying eac
 					// }
 // 	})
 // }
-	
+});	
 
