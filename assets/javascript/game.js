@@ -18,6 +18,8 @@ var fightSection = [];
 var defender;
 var isSet = false;
 var isEnemySet = false;
+var turnCounter = 1;
+var killCount = 0;
 
 var luke = {
 	name: "luke",
@@ -66,39 +68,176 @@ $("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying eac
 		$(".character").appendTo("#enemies")
 	}	else if (!isEnemySet){
 			isEnemySet = true;
-			console.log(isEnemySet)
+			console.log(isEnemySet);
 			$(".defender").append($(this));
 			$("#userChar, .currentCharacter").appendTo(".attacker");
 	}
 
-	})
-$("#combatButton").on("click", function() {
-	$(".defender").empty();
+	});
+    // -----------------------------------------------
+    // Functions to RENDER to PAGE
+    var renderOne = function(character, renderArea, makeChar) {
+        var charDiv = $("<div class='character' data-name='" + character.name + "'>");
+        var charName = $("<div class='character-name'>").text(character.name);
+        var charImage = $("<img alt='image' class='character-image'>").attr("src", character.imageUrl);
+        var charHealth = $("<div class='character-health'>").text(character.health);
+        charDiv.append(charName).append(charImage).append(charHealth);
+        $(renderArea).append(charDiv);
+
+        // conditional render
+        if (makeChar == 'enemy') {
+            $(charDiv).addClass("enemy");
+        } else if (makeChar == 'defender') {
+            defender = character;
+            $(charDiv).addClass("target-enemy");
+        }
+    };
+
+    // functions to render game messages to DOM
+    var renderMessage = function(message) {
+        var gameMessageSet = $("#gameMessage");
+        var newMessage = $("<div>").text(message);
+        gameMessageSet.append(newMessage);
+
+        if (message == 'clearMessage') {
+            gameMessage.text('');
+        }
+    };
+
+    // render all characters
+    var renderCharacters = function(charObj, areaRender) {
+        if (areaRender == '#characters-section') {
+            $(areaRender).empty();
+            for (var key in charObj) {
+                if (charObj.hasOwnProperty(key)) {
+                    renderOne(charObj[key], areaRender, '');
+                }
+            }
+        }
+        // render user character
+        if (areaRender == '#selected-character') {
+            renderOne(charObj, areaRender, '');
+        }
+        // render combatants
+        if (areaRender == '#available-to-attack-section') {
+            for (var i = 0; i < charObj.length; i++) {
+                renderOne(charObj[i], areaRender, 'enemy');
+            }
+            // render one enemy to defender area
+            $(document).on('click', '.enemy', function() {
+                // select who you want to fight
+                name = ($(this).data('name'));
+                // if empty
+                if ($('#defender').children().length === 0) {
+                    renderCharacters(name, '#defender');
+                    $(this).hide();
+                    renderMessage("clearMessage");
+                }
+            });
+        }
+        // render defender
+        if (areaRender == '#defender') {
+            $(areaRender).empty();
+            for (var i = 0; i < combatants.length; i++ ) {
+                // add enemy to defender area
+                if (combatants[i].name == charObj) {
+                    renderOne(combatants[i], areaRender, 'defender');
+                }
+            }
+        }
+        // re-render when attack
+        if (areaRender == 'playerDamage') {
+            $('#defender').empty();
+            renderOne(charObj, '#defender', 'defender');
+        }
+
+        // re-render user character when attacked
+        if (areaRender == 'enemyDamage') {
+            $('#selected-character').empty();
+            renderOne(charObj, '#selected-character', '');
+        }
+    };
+
+
+
+    // -------------------------------------------------------
+    //  Functions to enable actions based off render functions
+    $("#combatButton").on("click", function() {
+        // if defender has an enemy
+        if ($('.defender').children().length !== 0) {
+            var attackMessage = "You attacked " + defender.name + " for " + (userChar.attack * turnCounter) + " damage.";
+            // renderMessage("clearMessage");
+            // Combat Here
+            defender.health = defender.health - (userChar.attack * turnCounter);
+
+            // ON WIN CONDITION
+            if (defender.health > 0) {
+                // continue playing (renderChar method goes here)
+                renderCharacters(defender, "playerDamage");
+                // state change here
+                var counterAttackMessage = defender.name + " attacked you back for " + defender.enemyAttackBack + " damage.";
+                renderMessage(attackMessage);
+                renderMessage(counterAttackMessage);
+
+                userChar.health = userChar.health - defender.enemyAttackBack;
+                renderCharacters(userChar, 'enemyDamage');
+                if (userChar.health <= 0) {
+                    renderMessage("clearMessage");
+                    restartGame("You have been defeated...Game Over!");
+                    $("#combatButton").unbind("click");
+                }
+                // Keep killing until you win
+            } else {
+                renderCharacters(defender, 'enemyDefeated');
+                killCount++;
+                if (killCount >= 3) {
+                    renderMessage("clearMessage");
+                    restartGame("You Win, The Force is Strong with this One");
+                }
+            }
+            turnCounter++;
+        } else {
+            renderMessage("clearMessage");
+            renderMessage("No enemy here");
+        }
+    });
+
+    var restartGame = function(inputEndGame) {
+        // when restart is clicked, reload page
+        var restart = $('<button>Restart</button>').click(function() {
+            location.reload();
+        });
+        var gameState = $("<div>").text(inputEndGame);
+        $("body").append(gameState);
+        $("body").append(restart);
+    };
 });
 
-	// function combat() {
-	// 	var abc = $("#userChar");
-	// 	console.log(abc)
-	// }
 
-	// function characterStats(luke, obiWan, darthSid, maul) {
-	// 	if(luke === 0 || obiWan === 0 || darthSid === 0 || maul === 0) {
-	// 		$(".defender").empty();
-	// 	}
-	// }
+
+// ********************DISREGARD*******************
+// function combat() {
+// 	var abc = $("#userChar");
+// 	console.log(abc)
+// }
+
+// function characterStats(luke, obiWan, darthSid, maul) {
+// 	if(luke === 0 || obiWan === 0 || darthSid === 0 || maul === 0) {
+// 		$(".defender").empty();
+// 	}
+// }
 // Saving the for loop for combat maybe?
 
 // *** Begin combat ***
 // function combat(health, attack, name) {
 
 // 	$("button").on("click", function() {
-					// var nameSelected = $(this).attr("id");
-					// for(var i = 0; i < myGameCharacters.length; i++){
-					// 	if(nameSelected === myGameCharacters[i].name){
-					// 		// console.log(nameSelected)
-					// 	}
-					// }
+// var nameSelected = $(this).attr("id");
+// for(var i = 0; i < myGameCharacters.length; i++){
+// 	if(nameSelected === myGameCharacters[i].name){
+// 		// console.log(nameSelected)
+// 	}
+// }
 // 	})
 // }
-});	
 
