@@ -14,66 +14,42 @@ $ (document).ready(function() {
 
 var userChar;
 var enemies;
-var fightSection = [];
+var combatants = [];
 var defender;
-var isSet = false;
-var isEnemySet = false;
 var turnCounter = 1;
 var killCount = 0;
 
-var luke = {
-	name: "luke",
-	health: 200,
-	attack: 25,
-	selected: false
+var characters = {
+    'luke' : {
+        name: "luke",
+        health: 200,
+        attack: 25,
+        enemyAttackBack: 30
+    },
+
+     'darthSid' : {
+        name: "darthSid",
+        health: 400,
+        attack: 30,
+        enemyAttackBack: 40
+    },
+
+     'maul' : {
+        name: "maul",
+        health: 300,
+        attack: 15,
+        enemyAttackBack: 25
+    },
+    'obiwan' : {
+        name: "obiwan",
+        health: 200,
+        attack: 10,
+        enemyAttackBack: 15
+    }
+
 };
 
-var darthSid = {
-	name: "darthSid",
-	health: 400,
-	attack: 30,
-	selected: false
-};
 
-var maul = {
-	name: "maul",
-	health: 300,
-	attack: 15,
-	selected: false
-};
-
-var obiWan = {
-	name: "obiwan",
-	health: 200,
-	attack: 10,
-	selected: false
-};
-
-var myGameCharacters = [luke, darthSid, maul, obiWan];
-$("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying each characters' health.
-// add in their attack power as well
-
-
-// moving the characters
-	$(".character").on("click", function() {
-	// isSet is declared to false at the top. (15)
-	// setting the isSet variable to not true, so the other characters don't move. ()
-	if(!isSet) { // if selected character is not the variable isSet, set it equal to true. (44,45)
-		isSet = true;
-		$('#userChar').append($(this));
-		// when a user clicks on a character, it will remove the class and append it.
-		$(this).attr("class","currentCharacter")
-		// this will take the rest of the characters and move them to the enemies sections.
-		// appendTo will add 
-		$(".character").appendTo("#enemies")
-	}	else if (!isEnemySet){
-			isEnemySet = true;
-			console.log(isEnemySet);
-			$(".defender").append($(this));
-			$("#userChar, .currentCharacter").appendTo(".attacker");
-	}
-
-	});
     // -----------------------------------------------
     // Functions to RENDER to PAGE
     var renderOne = function(character, renderArea, makeChar) {
@@ -176,7 +152,7 @@ $("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying eac
                     combatants.push(characters[key]);
                 }
             }
-         $("#characters-setion").hide();
+         $("#characters-section").hide();
             renderCharacters(userChar, '#selected-character');
             // render all characters for user to choose
             renderCharacters(combatants, '#available-to-attack-section');
@@ -191,7 +167,7 @@ $("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying eac
         // if defender has an enemy
         if ($('.defender').children().length !== 0) {
             var attackMessage = "You attacked " + defender.name + " for " + (userChar.attack * turnCounter) + " damage.";
-            // renderMessage("clearMessage");
+            renderMessage("clearMessage");
             // Combat Here
             defender.health = defender.health - (userChar.attack * turnCounter);
 
