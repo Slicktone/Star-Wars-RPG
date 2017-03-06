@@ -1,7 +1,7 @@
 <!doctype html>
 <html class="no-js" lang="">
     <head>
-		<title> My Star Wars RPG </title>
+		<title> My Star Wars RPG with jQuery </title>
 
      <!-- Added link to the jQuery Library -->
     <script src="https://code.jquery.com/jquery-2.2.3.js" integrity="sha256-laXWtGydpwqJ8JA+X9x2miwmaiKhn8tVmOVEigRNtP4=" crossorigin="anonymous"></script>
@@ -15,57 +15,65 @@
     </head>
 
     <body>
-		<div class="section">
-			<h1> Star Wars RPG </h1>
+	    <div class="main-section-title"> <h1> Star Wars RPG </h1> </div>
+	    <div id="main-game-section">
 
-			<div id="obiwan" class="character"> 
-			<p> Obi-Wan Kenobi </p>
-			<img src="assets/images/obiwan.jpg" alt="Obi-Wan Kenobi">
-			<p id="obi-health"> Health </p>
-			</div>
+            <div id="characters-section">
+                <div class="section-title"> Select Your Character </div>
 
-			<div id="luke" class="character"> 
-			<p> Luke Skywalker </p>
-			<img src="assets/images/luke.jpg" alt="Luke Skywalker">
-			<p id="luke-health"> Health </p>
-			</div>
+                <div id="obiWan" class="character">
+                    <p> Obi-Wan Kenobi </p>
+                    <img src="assets/images/obiwan.jpg" alt="Obi-Wan Kenobi">
+                    <p id="obi-health"> Health </p>
+                </div>
 
-			<div id="darthsid" class="character">
-			<p> Darth Sidious </p>
-			<img src="assets/images/darthsid.jpg" alt="Darth Sidious">
-			<p id="darthsid-health"> Health </p>
-			</div>
+                <div id="luke" class="character">
+                    <p> Luke Skywalker </p>
+                    <img src="assets/images/luke.jpg" alt="Luke Skywalker">
+                    <p id="luke-health"> Health </p>
+                </div>
 
-			<div id="maul" class="character"> 
-			<p> Darth Maul </p>
-			<img src="assets/images/darthmaul.jpg" alt="Darth Maul">
-			<p id="maul-health"> Health </p>
-			</div>
+                <div id="darthsid" class="character">
+                    <p> Darth Sidious </p>
+                    <img src="assets/images/darthsid.jpg" alt="Darth Sidious">
+                    <p id="darthsid-health"> Health </p>
+                </div>
+
+                <div id="maul" class="character">
+                    <p> Darth Maul </p>
+                    <img src="assets/images/darthmaul.jpg" alt="Darth Maul">
+                    <p id="maul-health"> Health </p>
+                </div>
+            </div>
+
+
 		
 	
-		<div id="userChar">
-			<h3> Your Character </h3>
+		<div id="selected-character-section">
+            <div class="section-title"><h3> Your Character </h3></div>
+            <div id="selected-character"></div>
 		</div>
 		<hr>
 
-		<div id="enemies">
-			<h3> Enemies Available To Attack </h3>
+		<div id="available-to-attack-section">
+            <div class="section-title"><h3> Enemies Available To Attack </h3></div>
 		</div>
 		<hr>
 
+        <div class="section-title"><h3>Fight Section</h3></div>
 		<div id="fightSection">
-			<h3> Fight Section </h3>
-				<div class="attacker">
-					<h3> Attacker </h3>
-				</div>
-			<button id="combatButton"> Attack </button>
-
-				<div class="defender">
-					<h3> Defender </h3>
-				</div>
+			<button id="attack-button"> Attack </button>
 		</div>
 
+            <div id="action">
+                <div class="character-section">
+                    <div class="section-title">Defender</div>
+                    <div id="defender"></div>
+                </div>
+            </div>
+
 		</div>
+        <div id="gameMessage"></div>
 		
 <script src="assets/javascript/game.js"></script>
 
