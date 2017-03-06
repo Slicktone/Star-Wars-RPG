@@ -156,7 +156,32 @@ $("#luke-health").html('Health ' + myGameCharacters[0].health) // displaying eac
             $('#selected-character').empty();
             renderOne(charObj, '#selected-character', '');
         }
+
+        // render defeated
+        if (areaRender == 'enemyDefeated') {
+            $('#defender').empty();
+            var gameStateMessage = "You have defeated " + charObj.name + ", choose your next opponent.";
+            renderMessage(gameStateMessage);
+        }
     };
+
+    renderCharacters(characters, '#characters-section');
+    $(document).on('click', '.character', function() {
+        name = $(this).data('name');
+        // if no user char selected
+        if (!userChar) {
+            userChar = characters[name];
+            for (var key in characters) {
+                if (key != name) {
+                    combatants.push(characters[key]);
+                }
+            }
+         $("#characters-setion").hide();
+            renderCharacters(userChar, '#selected-character');
+            // render all characters for user to choose
+            renderCharacters(combatants, '#available-to-attack-section');
+        }
+    });
 
 
 
