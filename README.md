@@ -1,4 +1,4 @@
-# Star Wars RPG Game
+# Star Wars RPG with jQuery
 
 ### App Deployed to:
 #### https://desolate-headland-32202.herokuapp.com/
